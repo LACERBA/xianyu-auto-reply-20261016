@@ -12,7 +12,7 @@
 
 设计说明：
 - 三个服务入口统一为 <项目根>/<dir>/main.py，run_server() 内 uvicorn.run(port=service_port)。
-- 端口固定：backend-web=8089、websocket=8090、scheduler=8091。
+- 端口固定：backend-web=18089、websocket=18090、scheduler=18091。
 - 协调子进程使用「内联 Python 脚本」执行，兼容 Windows / Linux，不依赖 .bat。
 """
 from __future__ import annotations
@@ -31,9 +31,9 @@ from loguru import logger
 
 # 三个可重启服务的元信息：端口、目录名、中文名称
 SERVICE_META: dict[str, dict] = {
-    "backend-web": {"port": 8089, "dir": "backend-web", "label": "后端服务"},
-    "websocket": {"port": 8090, "dir": "websocket", "label": "消息服务"},
-    "scheduler": {"port": 8091, "dir": "scheduler", "label": "定时任务服务"},
+    "backend-web": {"port": 18089, "dir": "backend-web", "label": "后端服务"},
+    "websocket": {"port": 18090, "dir": "websocket", "label": "消息服务"},
+    "scheduler": {"port": 18091, "dir": "scheduler", "label": "定时任务服务"},
 }
 
 # 重启前等待的秒数：确保当前 HTTP 响应已返回给前端后再执行杀进程

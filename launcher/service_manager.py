@@ -28,8 +28,8 @@ from typing import Optional
 # 前端代理目标配置
 # 注意：/static/uploads/ 代理到后端（上传文件），其余/static/由前端静态服务器直接提供
 _PROXY_RULES = {
-    "/api/": "http://127.0.0.1:8089",
-    "/static/uploads/": "http://127.0.0.1:8089",
+    "/api/": "http://127.0.0.1:18089",
+    "/static/uploads/": "http://127.0.0.1:18089",
 }
 
 # 本地启动器生成 .env 时统一写入的 Redis 连接池参数
@@ -123,7 +123,7 @@ class FrontendHandler(http.server.SimpleHTTPRequestHandler):
         将请求代理到后端服务
         
         Args:
-            target_base: 后端服务基地址，如 http://127.0.0.1:8089
+            target_base: 后端服务基地址，如 http://127.0.0.1:18089
         """
         try:
             target_url = f"{target_base}{self.path}"
@@ -237,18 +237,18 @@ class ServiceManager:
             f"REDIS_PASSWORD={config['redis_password']}\n"
             f"REDIS_DB={config['redis_db']}\n"
             f"{_REDIS_POOL_ENV}"
-            f"BACKEND_WEB_PORT=8089\n"
+            f"BACKEND_WEB_PORT=18089\n"
             f"JWT_ALGORITHM=HS256\n"
             f"ACCESS_TOKEN_EXPIRE_MINUTES=1440\n"
             f"REFRESH_TOKEN_EXPIRE_MINUTES=10080\n"
             f"INTERNAL_API_TOKEN={internal_api_token}\n"
             f"CORS_ORIGINS=*\n"
-            f"WEBSOCKET_SERVICE_URL=http://127.0.0.1:8090\n"
-            f"SCHEDULER_SERVICE_URL=http://127.0.0.1:8091\n"
+            f"WEBSOCKET_SERVICE_URL=http://127.0.0.1:18090\n"
+            f"SCHEDULER_SERVICE_URL=http://127.0.0.1:18091\n"
             f"STATIC_DIR=static\n"
             f"BACKUP_DIR={backup_dir}\n"
-            f"FRONTEND_PUBLIC_URL=http://127.0.0.1:9000\n"
-            f"BACKEND_WEB_PUBLIC_URL=http://127.0.0.1:8089\n"
+            f"FRONTEND_PUBLIC_URL=http://127.0.0.1:19000\n"
+            f"BACKEND_WEB_PUBLIC_URL=http://127.0.0.1:18089\n"
         )
         
         # websocket .env
@@ -267,12 +267,12 @@ class ServiceManager:
             f"REDIS_PASSWORD={config['redis_password']}\n"
             f"REDIS_DB={config['redis_db']}\n"
             f"{_REDIS_POOL_ENV}"
-            f"WEBSOCKET_PORT=8090\n"
+            f"WEBSOCKET_PORT=18090\n"
             f"MAX_CAPTCHA_CONCURRENT=1\n"
             f"BROWSER_HEADLESS=true\n"
             f"TOKEN_REFRESH_INTERVAL=72000\n"
             f"TOKEN_RETRY_INTERVAL=7200\n"
-            f"BACKEND_WEB_SERVICE_URL=http://127.0.0.1:8089\n"
+            f"BACKEND_WEB_SERVICE_URL=http://127.0.0.1:18089\n"
             f"INTERNAL_API_TOKEN={internal_api_token}\n"
             f"STATIC_DIR=static\n"
         )
@@ -293,11 +293,11 @@ class ServiceManager:
             f"REDIS_PASSWORD={config['redis_password']}\n"
             f"REDIS_DB={config['redis_db']}\n"
             f"{_REDIS_POOL_ENV}"
-            f"SCHEDULER_PORT=8091\n"
+            f"SCHEDULER_PORT=18091\n"
             f"REDELIVERY_INTERVAL=5\n"
             f"RATE_INTERVAL=20\n"
-            f"WEBSOCKET_SERVICE_URL=http://127.0.0.1:8090\n"
-            f"BACKEND_WEB_SERVICE_URL=http://127.0.0.1:8089\n"
+            f"WEBSOCKET_SERVICE_URL=http://127.0.0.1:18090\n"
+            f"BACKEND_WEB_SERVICE_URL=http://127.0.0.1:18089\n"
             f"STATIC_DIR=static\n"
             f"BACKUP_DIR={backup_dir}\n"
             f"INTERNAL_API_TOKEN={internal_api_token}\n"
@@ -421,7 +421,7 @@ class ServiceManager:
             self._service_errors[name] = str(e)
             return False
     
-    def start_frontend_server(self, port: int = 9000) -> bool:
+    def start_frontend_server(self, port: int = 19000) -> bool:
         """
         启动前端静态文件服务器
         
@@ -477,9 +477,9 @@ class ServiceManager:
         
         # 启动3个Python后端服务，按依赖顺序启动
         services = [
-            ("backend-web", "backend-web", 8089),
-            ("websocket", "websocket", 8090),
-            ("scheduler", "scheduler", 8091),
+            ("backend-web", "backend-web", 18089),
+            ("websocket", "websocket", 18090),
+            ("scheduler", "scheduler", 18091),
         ]
         
         for name, service_dir, port in services:
@@ -511,7 +511,7 @@ class ServiceManager:
                 pass
         
         # 启动前端静态服务
-        results["frontend"] = self.start_frontend_server(9000)
+        results["frontend"] = self.start_frontend_server(19000)
         
         return results
     
@@ -541,7 +541,7 @@ class ServiceManager:
                 pass
         
         # 通过端口强杀残留进程，确保端口被释放
-        for port in [8089, 8090, 8091, 9000]:
+        for port in [18089, 18090, 18091, 19000]:
             kill_by_port(port)
         
         # 关闭日志文件句柄
@@ -574,10 +574,10 @@ class ServiceManager:
         """
         # 所有服务及其端口（固定列表，不依赖_processes）
         all_services = {
-            "backend-web": 8089,
-            "websocket": 8090,
-            "scheduler": 8091,
-            "frontend": 9000,
+            "backend-web": 18089,
+            "websocket": 18090,
+            "scheduler": 18091,
+            "frontend": 19000,
         }
         
         status = {}

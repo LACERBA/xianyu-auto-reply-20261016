@@ -26,15 +26,15 @@ class SchedulerConfig(BaseConfig):
 
     # 服务配置
     project_name: str = Field(default="Xianyu Scheduler Service")
-    service_port: int = Field(default=8091, alias="SCHEDULER_PORT")
+    service_port: int = Field(default=18091, alias="SCHEDULER_PORT")
     
     # 服务间通信URL
     websocket_service_url: str = Field(
-        default="http://127.0.0.1:8090",
+        default="http://127.0.0.1:18090",
         alias="WEBSOCKET_SERVICE_URL"
     )
     backend_web_service_url: str = Field(
-        default="http://127.0.0.1:8089",
+        default="http://127.0.0.1:18089",
         alias="BACKEND_WEB_SERVICE_URL",
     )
 

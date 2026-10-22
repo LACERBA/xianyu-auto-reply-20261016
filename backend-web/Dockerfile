@@ -37,7 +37,7 @@ RUN python -m patchright install --with-deps chromium
 RUN mkdir -p /app/backend-web/logs /app/static/uploads
 
 # 暴露端口
-EXPOSE 8089
+EXPOSE 18089
 
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app

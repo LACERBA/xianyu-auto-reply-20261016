@@ -108,11 +108,11 @@
 
 ```text
 xianyu-auto-reply/
-├── backend-web/          # 主 Web API 服务（端口 8089）
-├── websocket/            # 闲鱼连接与消息处理服务（端口 8090）
-├── scheduler/            # 定时任务服务（端口 8091）
+├── backend-web/          # 主 Web API 服务（端口 18089）
+├── websocket/            # 闲鱼连接与消息处理服务（端口 18090）
+├── scheduler/            # 定时任务服务（端口 18091）
 ├── common/               # 主系统与返佣系统共享模块
-├── frontend/             # 主系统前端（端口 9000）
+├── frontend/             # 主系统前端（端口 19000）
 ├── launcher/             # Windows 桌面启动器（Nuitka 打包为 EXE）
 ├── promotion/
 │   ├── backend/          # 返佣后端（端口 8092）
@@ -137,10 +137,10 @@ xianyu-auto-reply/
 
 | 服务 | 默认端口 | 说明 |
 |------|----------|------|
-| `frontend` | 9000 | 主系统前端 |
-| `backend-web` | 8089 | 主系统 API 网关、业务接口 |
-| `websocket` | 8090 | 闲鱼 WebSocket、消息收发、登录与订单联动 |
-| `scheduler` | 8091 | 定时任务执行器 |
+| `frontend` | 19000 | 主系统前端 |
+| `backend-web` | 18089 | 主系统 API 网关、业务接口 |
+| `websocket` | 18090 | 闲鱼 WebSocket、消息收发、登录与订单联动 |
+| `scheduler` | 18091 | 定时任务执行器 |
 | `promotion/backend` | 8092 | 返佣后端 API |
 | `promotion/frontend` | 9001 | 返佣前端 |
 
@@ -155,6 +155,7 @@ xianyu-auto-reply/
 - 返佣子系统位于 `promotion/` 目录，前后端独立，当前不在根目录 Docker Compose 编排内
 - 主系统三个后端服务都提供 `/health` 健康检查接口
 - Docker 依赖链：mysql/redis → backend-web → websocket → scheduler；frontend → backend-web
+- 远程预构建镜像部署脚本仅调整宿主机暴露端口，保留已发布镜像的内部端口；根目录源码构建使用新的应用端口。
 
 ## 快速开始
 
@@ -186,8 +187,8 @@ bash deploy.sh
 - 从阿里云镜像仓库拉取预构建镜像并启动
 - 如果检测到加密版容器会自动清理（保留数据卷）
 - 部署完成后默认访问地址：
-  - 前端：`http://服务器IP:9000`
-  - API 文档：`http://服务器IP:8089/docs`
+  - 前端：`http://服务器IP:19000`
+  - API 文档：`http://服务器IP:18089/docs`
   - 默认账号：`admin` / `admin123`
 
 后续更新：
@@ -250,6 +251,14 @@ bash build_scheduler.sh     # 重建 Scheduler
 
 ### 方式五：源码本地开发
 
+Windows 已安装 Node.js 18+ 和 Python 3.11+ 时，可直接双击根目录的 `启动后端.bat` 和 `启动前端.bat`。后端脚本为三个服务分别准备 `.venv`、Python 依赖与 Chromium，按健康检查顺序启动；前端脚本自动准备 npm 依赖。重复启动会复用未变更的依赖，已有 `.env` 不会被覆盖。
+
+若 Windows 尚未安装 Python，且系统提供 winget，后端脚本会先询问是否为当前用户安装 Python 3.11；只有确认后才执行安装。脚本使用 Windows Python，不会误用 WSL 的 Linux 虚拟环境。
+
+首次缺少 `.env` 时，后端脚本会交互询问数据库连接信息；MySQL 数据库需提前创建。主界面为 `http://127.0.0.1:19000`，API 为 `http://127.0.0.1:18089`。后端三个服务共用一个窗口，按 `Ctrl+C` 一起停止；修改 Python 代码后需重新启动，前端保留 Vite 热更新。
+
+启动脚本的轻量验证命令为 `node --check scripts/start-dev.cjs` 和 `node --test scripts/start-dev.test.cjs`，不会安装应用依赖或启动业务服务。
+
 #### 1. 准备基础服务
 
 可以使用本机 MySQL / Redis，也可以仅用 Docker 启动基础设施：
@@ -286,12 +295,12 @@ REDIS_STARTUP_MAX_RETRIES=5
 REDIS_STARTUP_RETRY_BASE_DELAY=1
 REDIS_STARTUP_RETRY_CAP_DELAY=10
 CORS_ORIGINS=*
-BACKEND_WEB_PORT=8089
-WEBSOCKET_PORT=8090
-SCHEDULER_PORT=8091
-WEBSOCKET_SERVICE_URL=http://127.0.0.1:8090
-SCHEDULER_SERVICE_URL=http://127.0.0.1:8091
-BACKEND_WEB_SERVICE_URL=http://127.0.0.1:8089
+BACKEND_WEB_PORT=18089
+WEBSOCKET_PORT=18090
+SCHEDULER_PORT=18091
+WEBSOCKET_SERVICE_URL=http://127.0.0.1:18090
+SCHEDULER_SERVICE_URL=http://127.0.0.1:18091
+BACKEND_WEB_SERVICE_URL=http://127.0.0.1:18089
 DB_POOL_SIZE=800
 DB_MAX_OVERFLOW=60
 DB_POOL_TIMEOUT=30

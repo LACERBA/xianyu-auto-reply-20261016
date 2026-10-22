@@ -195,10 +195,10 @@ def _render_status_content(app):
     status_frame.pack(fill=tk.X, padx=20, pady=(0, 10))
 
     service_names = {
-        "backend-web": ("后端管理服务", "8089"),
-        "websocket": ("WebSocket服务", "8090"),
-        "scheduler": ("定时任务服务", "8091"),
-        "frontend": ("前端界面服务", "9000"),
+        "backend-web": ("后端管理服务", "18089"),
+        "websocket": ("WebSocket服务", "18090"),
+        "scheduler": ("定时任务服务", "18091"),
+        "frontend": ("前端界面服务", "19000"),
     }
 
     app._status_labels = {}
@@ -250,15 +250,15 @@ def _render_status_content(app):
     url_frame = tk.Frame(inner, bg=COLORS["card_bg"])
     url_frame.pack(fill=tk.X, padx=20, pady=(0, 8))
 
-    url_lbl = tk.Label(url_frame, text="管理后台：http://127.0.0.1:9000",
+    url_lbl = tk.Label(url_frame, text="管理后台：http://127.0.0.1:19000",
                        font=("Consolas", 10), fg=COLORS["accent"],
                        bg=COLORS["card_bg"], cursor="hand2")
     url_lbl.pack(anchor=tk.W)
     url_lbl.bind("<Button-1>", lambda e: open_browser())
 
-    for name, addr in [("后端API", "127.0.0.1:8089"),
-                       ("WebSocket", "127.0.0.1:8090"),
-                       ("定时任务", "127.0.0.1:8091")]:
+    for name, addr in [("后端API", "127.0.0.1:18089"),
+                       ("WebSocket", "127.0.0.1:18090"),
+                       ("定时任务", "127.0.0.1:18091")]:
         tk.Label(url_frame, text=f"{name}：http://{addr}", font=("Consolas", 9),
                  fg=COLORS["text_secondary"], bg=COLORS["card_bg"]).pack(anchor=tk.W, pady=1)
 
@@ -523,7 +523,7 @@ def _on_download_done(app, dlg, result):
 def open_browser():
     """在默认浏览器中打开管理后台"""
     import webbrowser
-    webbrowser.open("http://127.0.0.1:9000")
+    webbrowser.open("http://127.0.0.1:19000")
 
 
 def restart_services(app):

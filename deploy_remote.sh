@@ -101,10 +101,10 @@ REDIS_STARTUP_RETRY_CAP_DELAY=10
 # 说明：JWT 密钥由数据库统一托管（首次启动自动生成并持久化），无需在此配置
 
 # 端口配置
-FRONTEND_PORT=9000
-BACKEND_WEB_PORT=8089
-WEBSOCKET_PORT=8090
-SCHEDULER_PORT=8091
+FRONTEND_PORT=19000
+BACKEND_WEB_PORT=18089
+WEBSOCKET_PORT=18090
+SCHEDULER_PORT=18091
 
 # 镜像配置
 IMAGE_REGISTRY=registry.cn-shanghai.aliyuncs.com/zhinian-software
@@ -238,7 +238,7 @@ services:
       - ./xianyu_auto_reply/static:/app/static
       - ./xianyu_auto_reply/backups:/app/backups
     ports:
-      - "${BACKEND_WEB_PORT:-8089}:8089"
+      - "${BACKEND_WEB_PORT:-18089}:8089"
     networks:
       - xianyu-network
     healthcheck:
@@ -304,7 +304,7 @@ services:
       - ./xianyu_auto_reply/static:/app/static
       - ./xianyu_auto_reply/browser_data:/app/browser_data
     ports:
-      - "${WEBSOCKET_PORT:-8090}:8090"
+      - "${WEBSOCKET_PORT:-18090}:8090"
     networks:
       - xianyu-network
     depends_on:
@@ -369,7 +369,7 @@ services:
       - ./xianyu_auto_reply/static:/app/static:ro
       - ./xianyu_auto_reply/backups:/app/backups
     ports:
-      - "${SCHEDULER_PORT:-8091}:8091"
+      - "${SCHEDULER_PORT:-18091}:8091"
     networks:
       - xianyu-network
     depends_on:
@@ -392,7 +392,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     ports:
-      - "${FRONTEND_PORT:-9000}:80"
+      - "${FRONTEND_PORT:-19000}:80"
     networks:
       - xianyu-network
     depends_on:
@@ -466,15 +466,15 @@ sleep 15
 $DC_CMD ps
 
 # 读取端口配置
-frontend_port=$(grep -E "^FRONTEND_PORT=" "$ENV_FILE" 2>/dev/null | cut -d '=' -f2 | tr -d '\r' || echo "9000")
-backend_web_port=$(grep -E "^BACKEND_WEB_PORT=" "$ENV_FILE" 2>/dev/null | cut -d '=' -f2 | tr -d '\r' || echo "8089")
-websocket_port=$(grep -E "^WEBSOCKET_PORT=" "$ENV_FILE" 2>/dev/null | cut -d '=' -f2 | tr -d '\r' || echo "8090")
-scheduler_port=$(grep -E "^SCHEDULER_PORT=" "$ENV_FILE" 2>/dev/null | cut -d '=' -f2 | tr -d '\r' || echo "8091")
+frontend_port=$(grep -E "^FRONTEND_PORT=" "$ENV_FILE" 2>/dev/null | cut -d '=' -f2 | tr -d '\r' || echo "19000")
+backend_web_port=$(grep -E "^BACKEND_WEB_PORT=" "$ENV_FILE" 2>/dev/null | cut -d '=' -f2 | tr -d '\r' || echo "18089")
+websocket_port=$(grep -E "^WEBSOCKET_PORT=" "$ENV_FILE" 2>/dev/null | cut -d '=' -f2 | tr -d '\r' || echo "18090")
+scheduler_port=$(grep -E "^SCHEDULER_PORT=" "$ENV_FILE" 2>/dev/null | cut -d '=' -f2 | tr -d '\r' || echo "18091")
 
-frontend_port="${frontend_port:-9000}"
-backend_web_port="${backend_web_port:-8089}"
-websocket_port="${websocket_port:-8090}"
-scheduler_port="${scheduler_port:-8091}"
+frontend_port="${frontend_port:-19000}"
+backend_web_port="${backend_web_port:-18089}"
+websocket_port="${websocket_port:-18090}"
+scheduler_port="${scheduler_port:-18091}"
 
 echo ""
 echo -e "${GREEN}=========================================="

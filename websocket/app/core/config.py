@@ -27,7 +27,7 @@ class WebSocketConfig(BaseConfig):
 
     # 服务配置
     project_name: str = Field(default="Xianyu WebSocket Service")
-    service_port: int = Field(default=8090, alias="WEBSOCKET_PORT")
+    service_port: int = Field(default=18090, alias="WEBSOCKET_PORT")
     
     # 启动时是否自动连接WebSocket
     auto_start_websocket: bool = Field(default=True, alias="AUTO_START_WEBSOCKET")
@@ -51,7 +51,7 @@ class WebSocketConfig(BaseConfig):
     
     # 服务间通信URL
     backend_web_service_url: str = Field(
-        default="http://127.0.0.1:8089",
+        default="http://127.0.0.1:18089",
         alias="BACKEND_WEB_SERVICE_URL"
     )
     

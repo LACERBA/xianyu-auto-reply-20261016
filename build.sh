@@ -112,10 +112,10 @@ REDIS_STARTUP_RETRY_CAP_DELAY=10
 # 说明：JWT 密钥由数据库统一托管（首次启动自动生成并持久化），无需在此配置
 
 # 端口
-FRONTEND_PORT=9000
-BACKEND_WEB_PORT=8089
-WEBSOCKET_PORT=8090
-SCHEDULER_PORT=8091
+FRONTEND_PORT=19000
+BACKEND_WEB_PORT=18089
+WEBSOCKET_PORT=18090
+SCHEDULER_PORT=18091
 
 # 日志级别
 LOG_LEVEL=INFO
@@ -201,10 +201,10 @@ start_services() {
     echo "==========================================${NC}"
     echo ""
     echo "服务访问地址："
-    echo "  前端:         http://localhost:9000"
-    echo "  Backend-Web:  http://localhost:8089"
-    echo "  WebSocket:    http://localhost:8090"
-    echo "  Scheduler:    http://localhost:8091"
+    echo "  前端:         http://localhost:19000"
+    echo "  Backend-Web:  http://localhost:18089"
+    echo "  WebSocket:    http://localhost:18090"
+    echo "  Scheduler:    http://localhost:18091"
     echo ""
     echo "默认账号: admin / admin123"
     echo ""

@@ -36,7 +36,7 @@ RUN python -m playwright install --with-deps chromium
 RUN mkdir -p /app/scheduler/logs
 
 # 暴露端口
-EXPOSE 8091
+EXPOSE 18091
 
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app

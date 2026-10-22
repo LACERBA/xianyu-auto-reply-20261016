@@ -11,7 +11,7 @@ import sys
 import urllib.request
 from pathlib import Path
 
-DEFAULT_URL = "http://localhost:8089/openapi.json"
+DEFAULT_URL = "http://localhost:18089/openapi.json"
 DEFAULT_OUTPUT = str(Path(__file__).parent.parent / "api" / "generated" / "openapi.json")
 
 

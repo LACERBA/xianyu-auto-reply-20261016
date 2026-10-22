@@ -37,7 +37,7 @@ RUN python -m patchright install --with-deps chromium
 RUN mkdir -p /app/websocket/logs /app/static /app/browser_data
 
 # 暴露端口
-EXPOSE 8090
+EXPOSE 18090
 
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app

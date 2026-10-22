@@ -298,8 +298,8 @@ export interface WsPushMessage {
  * 获取在线聊天(新) WebSocket 基础地址
  *
  * 使用当前页面同源地址，通过代理转发到backend-web：
- * - 开发环境：Vite proxy (ws:true) 代理到 localhost:8089
- * - 生产环境：Nginx 反代到 backend-web:8089
+ * - 开发环境：Vite proxy (ws:true) 代理到 localhost:18089
+ * - 生产环境：Nginx 反代到 backend-web:18089
  */
 function getChatNewWsBaseUrl(): string {
   const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
